@@ -1,0 +1,18 @@
+version: "3"
+services:
+  my-hadoop-master:
+    image: lilya/hadoop-master
+    networks:
+      - "mynetwork"
+    ports:
+      - "7788:8080"
+  slave1:
+    image: lilya/hadoop-master
+    networks:
+      - "mynetwork"
+  slave2:
+    image: lilya/hadoop-master
+    networks:
+      - "mynetwork"
+networks:
+  mynetwork:

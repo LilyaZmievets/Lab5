@@ -1,0 +1,37 @@
+Отключаем Hyper-V Если не заупскается Docker Terminal
+
+Создаем образы из докерфайла main
+
+docker build -t lilya/master -f main .
+docker build -t lilya/worker -f main .
+
+docker build -t lilya/hadoop-master -f main .
+
+пуш на хаб !!! Обязательно. Спросить как можно без этого(!).
+
+docker login
+password
+docker push lilya/master
+docker push lilya/worker
+
+подъём кластера
+
+docker swarm init --advertise-addr 192.168.99.100 (101 и 102 - будут доп. машины)
+
+docker swarm join-token worker (worker|manager). 
+
+docker-machine create --driver virtualbox worker1
+docker-machine create --driver virtualbox worker2	
+
+$ eval $("C:\Program Files\Docker Toolbox\docker-machine.exe" env worker1)
+вставить токен который получили ранее
+
+$ eval $("C:\Program Files\Docker Toolbox\docker-machine.exe" env worker2)
+вставить токен который получили ранее
+Swarm готов
+
+деплой на сварм
+
+docker stack deploy --compose-file sc.yml my_hadoop
+
+docker swarm join --token SWMTKN-1-61kvd44p1c4ji705spirxfx84yk887my3x05j5d9ybiwp23kpt-4gov6ax0oxq739oayec556g4h 192.168.99.100:2377
